@@ -35,13 +35,14 @@ html, body
 
 #inputTitle, #input { 
   margin-top: 10px;
-  border-width: 0px;
+  border-width: 1px;
   margin-bottom: 4px;
   min-height: 45px;
   z-index: 0;
+  overflow: hidden;
 }
 .inputLabel {
-  color: rgb(167, 158, 158);
+  color: rgb(80, 83, 86);
 }
 
 #closeInput {
