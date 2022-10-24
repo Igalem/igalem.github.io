@@ -10,9 +10,13 @@ grid = []
 g = []
 
 noteHeaderLimit = 30
-noteBodyTextLimit = 1300
+noteBodyTextLimit = 1000
+noteFormHeightOpen = '25%'
+noteFormHeightClose = '8%'
+noteInputHeight = '45px'
 
-imageDict = ['jpg', 'jpeg', 'png', 'gif', 'image']
+
+imageDict = ['.jpg', '.jpeg', '.png', '.gif', 'image']
 
 global inputDivFlag
 inputDivFlag = 0
@@ -53,7 +57,11 @@ def removeNote(e, **args):
 def createNoteElement(e,**args):
     global inputDivFlag
 
-    console.log('inputDivFlag:' , str(inputDivFlag))
+    # console.log('inputDivFlag:' , str(inputDivFlag))
+
+    if modal.style.display == 'block' and document.activeElement.id == body.id:
+        console.log('OPEN!!')
+        closeModal(e)
     
     noteInput = document.getElementById('input')
     noteDesc = noteInput.value
@@ -64,8 +72,10 @@ def createNoteElement(e,**args):
     if noteDesc == '' and document.activeElement.id not in ['inputTitle','input']:
         createNoteTitle.style.display = 'none'
         closeNoteInput.style.display = 'none'
-        createNoteInput.style.height = '45px'
-        pass
+        createNoteInput.style.height = noteInputHeight
+        createNoteInput.value = createNoteTitle.value = ''
+        createNoteForm.style.height = noteFormHeightClose
+        # pass
     elif noteDesc and (e.target.id not in ['inputTitle','input']):
         createNoteFlag = 1
         for c,col in enumerate(grid):
@@ -103,7 +113,7 @@ def createNoteElement(e,**args):
                     elif 'http' in noteDesc[0:10].lower():
                         noteType = 'url'
                     else:
-                         noteType = 'note'
+                        noteType = 'note'
 
                     noteDesc.replace('\n', '<br>')
 
@@ -163,6 +173,7 @@ def createNoteElement(e,**args):
                     createNoteFlag=0
                     grid[c][r] = 1
                     noteInput.value = ''
+                    createNoteForm.style.height = noteFormHeightClose
                     createNoteTitle.style.display = 'none'
                     closeNoteInput.style.display = 'none'
                     createNoteInput.style.height = '45px'
@@ -172,7 +183,7 @@ def createNoteElement(e,**args):
 def updateNoteBodyLines(e, **args):
     getNoteTarget = modal.getAttribute('data-note-target')
     getModalLines = modalBodylines.value
-    document.querySelector(getNoteTarget).innerHTML = getModalLines
+    document.querySelector(getNoteTarget).innerText = getModalLines
     console.log('--------', getNoteTarget)
     
 def openModal(e, **args):
@@ -180,6 +191,7 @@ def openModal(e, **args):
     ## Disable textArea for creating new notes
     createNoteInput.setAttribute('disabled', '') 
 
+    ## Show dialog
     modalDialog.showModal()
     modalEnabled = modal.style.display
     
@@ -202,12 +214,12 @@ def openModal(e, **args):
         console.log(noteType)
 
         ## Set Modal Header/Body details from note
-        modalHeaderSubject.innerHTML = noteHeader
+        modalHeaderSubject.innerText = noteHeader
         modalBodylines.value = noteBody
         modalHeader = document.querySelector('#myModal')
         modalHeader.className = 'modalHeader' + noteType
         modalBodylines.className = 'form-control modalBody' + noteType
-        print('modal lines count: ', len(modalBodylines.value))
+        print('modal lines count: ', str(len(modalBodylines.value)))
         ## Set Modal Attributes
         modal.setAttribute('data-note-target', noteTextId)
         ## Set Modal Body size according to note details
@@ -222,6 +234,7 @@ def openModal(e, **args):
             modalBodylines.style.height = "450px";
         ## Enable Modal
         modal.style.display = 'block'
+        modalBodylines.focus()
         ## Add modal listeners
         modalBodylines.addEventListener('change', create_proxy(updateNoteBodyLines))
 
@@ -231,6 +244,7 @@ def closeModal(e, **args):
     createNoteInput.removeAttribute('disabled') 
 
 def textareaInput(e):
+    createNoteForm.style.height = noteFormHeightOpen
     createNoteTitle.style.display = 'block'
     closeNoteInput.style.display = 'block'
     createNoteInput.style.height = 'auto'
@@ -238,7 +252,10 @@ def textareaInput(e):
     createNoteInput.style.height = '{scHeigth}px'.format(scHeigth=scHeigth)
 
 def copyPaste(e, **args):
-    if document.activeElement.id != createNoteInput.id and document.activeElement.id != createNoteTitle.id:
+    if document.activeElement.id != createNoteInput.id \
+            and document.activeElement.id != createNoteTitle.id \
+                and modal.style.display != 'block':
+        createNoteForm.style.height = noteFormHeightOpen
         createNoteTitle.style.display = 'block'
         closeNoteInput.style.display = 'block'
         createNoteInput.style.height = '100px'
@@ -261,8 +278,9 @@ def debug(e, **args):
     console.log(e)
     console.log('tagName:', e.target.tagName)
     console.log('id:', e.target.id)
-    console.log('Active:', document.activeElement.id)
-    console.log('Active2:', createNoteTitle.id)
+    console.log('Current active element:', document.activeElement.id)
+    console.log('modal status:', modal.style.display)
+    console.log(document.activeElement)
 
 ### ----------------------------------------------------------- MAIN
 
@@ -278,9 +296,11 @@ document.querySelector("#closeModal").addEventListener('click', create_proxy(clo
 modalDialog = document.getElementById('dialog')
 
 ## Inputs
+createNoteForm = document.querySelector('.noteForm')
 createNoteTitle = document.querySelector('#inputTitle')
 createNoteInput = document.getElementById("input")
 closeNoteInput = document.getElementById("closeInput")
+
 
 for event in ["keyup", "focus"]:
     createNoteInput.addEventListener(event, create_proxy(textareaInput)) 
