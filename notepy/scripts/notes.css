@@ -27,44 +27,58 @@ html, body
   font-size: x-large;
 }
 
-.form-floating { 
-  width: 50%;
-  left: 25%;
-  z-index: 1;
+.noteForm {
+  background-color: white;
+  border-radius: 10px;
+  margin-left: 25%;
+  width: 45%;
+  height: 18%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  max-height: 40%;
+  box-shadow: 1px 2px 3px lightgray;
 }
 
 #inputTitle, #input { 
-  margin-top: 10px;
-  border-width: 0px;
-  margin-bottom: 4px;
+  display: inline-block;
   min-height: 45px;
   z-index: 0;
+  max-height: 30%;
+  vertical-align: middle;
 }
-.inputLabel {
-  color: rgb(167, 158, 158);
+
+#inputTitle {
+  display: none;
+  margin-bottom: 10px;
+  resize: none;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-width: 2px;
+}
+
+#input {
+  border-width: 2px;
 }
 
 #closeInput {
   display: none;
   color: gray;
-  background-color: white;
+  background-color: whitesmoke;
   text-decoration: none;
   padding: 10px;
-  width: 10%;
+  width: 15%;
   border-radius: 10px;
+  border-width: 0.5px;
+  border-color: whitesmoke;
   margin-top: 10px;
 }
 
 #closeInput:hover {
   color: black;
   background-color: lightgray;
-}
-
-#inputTitle { 
-  display: none;
-  background-color: white;
-  resize: none;
-  overflow: hidden;
 }
 
 #input:disabled {
@@ -74,7 +88,6 @@ html, body
 
 .noteInput{
   color: darkgoldenrod !important;
-  /* font-style: italic; */
 }
 
 .snote
@@ -86,20 +99,20 @@ html, body
 
 .snote:hover
  {
-  background-color: rgb(245, 245, 205)
-  
+  background-color: rgb(245, 245, 205);
+  box-shadow: 2px 3px 8px lightgray !important;   
 }
 
 .snoteUrl
 {
   background-color: var(--noteColorURL);
   border: 0px !important;
+  
 }
 
-.snoteUrl:hover
- {
-  background-color: rgb(214, 233, 249)
-  
+.snoteUrl:hover  {
+  background-color: rgb(214, 233, 249);
+  box-shadow: 2px 3px 8px lightgray !important;     
 }
 
 
@@ -107,6 +120,11 @@ html, body
 {
   background-color: var(--noteColorIMG);
   border: 0px !important;
+}
+
+.snoteImage:hover {
+  background-color: rgb(249, 233, 251);
+  box-shadow: 2px 3px 8px lightgray !important;     
 }
 
 .snoteHeader
@@ -169,7 +187,6 @@ dialog::backdrop {
   top: 50%;
   left: 30%;
   height: auto;
-  /* width: 460px; */
   min-height: var(--modalMinHeight);
   max-height: var(--modalMaxHeight);
   align-items: center;
