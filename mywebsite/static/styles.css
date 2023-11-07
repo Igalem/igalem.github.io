@@ -440,6 +440,7 @@ article .icon {
 .project-title {
   margin: 1rem;
   color: black;
+  font-size: 1.5rem;
 }
 
 .project-btn {
@@ -618,3 +619,29 @@ footer p {
   }
   
 } 
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.typewriter {
+  display: inline;
+  border-right: .1em solid var(--purple);
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blink 1s step-end infinite;
+  font-size: larger;
+}
+
+/* You may need to adjust the width depending on the text length and font size */
+.typewriter-wrapper {
+  max-width: 20ch;
+  display: inline-block;
+}
